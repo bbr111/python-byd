@@ -182,6 +182,7 @@ class byd (object):
 
             for i in range(MaxCells):
                 cell_number = i + 1
+                #print(cell_number)
                 #print (data[i*2+101])
                 voltage = self.buf2int16SI(data, i * 2 + 101)
                 self.hvs_battery_volts_per_cell[cell_number] = voltage
@@ -198,7 +199,8 @@ class byd (object):
                 MaxCells = 64
 
             for i in range(MaxCells):
-                cell_number = i + 1
+                cell_number = i + 17
+                #print(cell_number)
                 voltage = self.buf2int16SI(data, i * 2 + 5)
                 self.hvs_battery_volts_per_cell[cell_number] = voltage
 
@@ -212,7 +214,7 @@ class byd (object):
                 MaxCells = 48
 
             for i in range(MaxCells):
-                cell_number = i + 1
+                cell_number = i + 81
                 voltage = self.buf2int16SI(data, i * 2 + 5)
                 self.hvs_battery_volts_per_cell[cell_number] = voltage
 
