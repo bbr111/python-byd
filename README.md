@@ -3,7 +3,7 @@ Python Wrapper for BYD b-Box HVM/HVS/LVS
 
 Installation
 ------------
-The module is available from the `Python Package Index <https://pypi.python.org/pypi>`_.
+The module is available from the [Python Package Index](https://pypi.python.org/pypi)
 
     $ pip3 install byd
 
