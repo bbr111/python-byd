@@ -22,7 +22,7 @@ setup(
     download_url="https://github.com/bbr111/python-byd/releases",
     author="Benjamin Bräuer",
     author_email="",
-    license="GNU General Public License v3.0",
+    license="GPL-3.0",
     install_requires=[
     ],
     packages=["byd"],
