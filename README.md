@@ -5,13 +5,9 @@ Installation
 ------------
 The module is available from the `Python Package Index <https://pypi.python.org/pypi>`_.
 
-.. code:: bash
-
     $ pip3 install byd
 
 On a Fedora-based system or a CentOS/RHEL host with EPEL.
-
-.. code:: bash
 
     $ sudo dnf -y install python3-byd
 
