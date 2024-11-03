@@ -1,4 +1,4 @@
-"""Module for communicating with the BYD HVS Battery system.
+"""Module for communicating with the BYD HVS Battery systems.
 
 This module provides the BYDHVS class, which handles communication with
 the BYD HVS Battery over TCP/IP sockets. It implements methods to connect
