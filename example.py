@@ -1,46 +1,43 @@
-"""Sample code to use the wrapper for interacting with the BYD API."""
+"""Sample code to use the wrapper for interacting with the BYDHVS API."""
 import asyncio
-from byd import byd
+from BYDHVS import BYDHVS
 
 byd_host = "192.168.16.254"
-byd_port = "8080"
+byd_port = 8080
 
 
 async def main():
     """The main part of the example script."""
-    batt = byd(byd_host, byd_port)
+    batt = BYDHVS(byd_host, byd_port)
     #Get the data
-    batt.read_data()
+    await batt.poll()
 
-    print("serial:", batt.hvs_serial)
-    print("hvs_batt_type_from_serial", batt.hvs_batt_type_from_serial)
-    print("bmu", batt.hvs_bmu)
-    print("bms", batt.hvs_bms)
-    print("modules", batt.hvs_modules)
-    print("grid", batt.hvs_grid)
-    print("soc", batt.soc)
-    print("maxvolt", batt.maxvolt)
-    print("minvolt", batt.minvolt)
-    print("soh", batt.soh)
-    print("ampere", batt.ampere)
-    print("battvolt", batt.battvolt)
-    print("maxtemp", batt.maxtemp)
-    print("mintemp", batt.mintemp)
-    print("battemp", batt.battemp)
-    print("error", batt.error)
-    print("paramt", batt.paramt)
-    print("outvolt", batt.outvolt)
-    print("power", batt.power)
-    print("diffvolt", batt.diffvolt)
-    print("hvsMaxmVolt", batt.hvsMaxmVolt)
-    print("hvsMinmVolt", batt.hvsMinmVolt)
-    print("hvsMaxmVoltCell", batt.hvsMaxmVoltCell)
-    print("hvsMinmVoltCell", batt.hvsMinmVoltCell)
-    print("hvsMaxTempCell", batt.hvsMaxTempCell)
-    print("hvsMinTempCell", batt.hvsMinTempCell)
-    print("hvsSOCDiagnosis", batt.hvsSOCDiagnosis)
-    print("hvs_battery_volts_per_cell", batt.hvs_battery_volts_per_cell)
-    print("hvs_battery_temps_per_cell", batt.hvs_battery_temps_per_cell)
+    data = batt.get_data()
+
+    print("BYD HVS Batteriedaten:")
+    print(f"Seriennummer: {data['serial_number']}")
+    print(f"BMU Firmware: {data['bmu_firmware']}")
+    print(f"BMS Firmware: {data['bms_firmware']}")
+    print(f"Module: {data['modules']}")
+    print(f"Türme: {data['towers']}")
+    print(f"Netztyp: {data['grid_type']}")
+    print(f"SOC: {data['soc']}%")
+    print(f"Maximale Spannung: {data['max_voltage']} V")
+    print(f"Minimale Spannung: {data['min_voltage']} V")
+    print(f"SOH: {data['soh']}%")
+    print(f"Strom: {data['current']} A")
+    print(f"Batteriespannung: {data['battery_voltage']} V")
+    print(f"Höchste Temperatur: {data['max_temperature']} °C")
+    print(f"Niedrigste Temperatur: {data['min_temperature']} °C")
+    print(f"Leistung: {data['power']} W")
+    print(f"Fehler: {data['error']}")
+    print(f"Anzahl der Balancing-Zellen: {data['balancing_count']}")
+    print("Einzelzellenspannungen (mV):")
+    for idx, voltage in enumerate(data['cell_voltages'], start=1):
+        print(f"  Zelle {idx}: {voltage} mV")
+    print("Einzelzellentemperaturen (°C):")
+    for idx, temp in enumerate(data['cell_temperatures'], start=1):
+        print(f"  Zelle {idx}: {temp} °C")
 
 if __name__ == "__main__":
     asyncio.run(main())
