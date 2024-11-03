@@ -1,6 +1,6 @@
 """Sample code to use the wrapper for interacting with the BYDHVS API."""
 import asyncio
-from BYDHVS import BYDHVS
+from bydhvs import BYDHVS
 
 byd_host = "192.168.16.254"
 byd_port = 8080
