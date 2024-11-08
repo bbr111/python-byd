@@ -7,19 +7,15 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-# Remove the 'version' field as setuptools_scm will handle it
+requires-python = ">=3.9"
 name = "bydhvs"
+dynamic = ["version"]
 description = "A module for communicating with the BYD HVS Battery system"
-readme = "README.md"
-readme-content-type = "text/markdown"
+readme = { file = "README.md", content-type = "txt/markdown" }
 license = { text = "GPL-3.0" }
 authors = [
-  { name = "bbr111", email = "ben1@gmx.net" }
+  {name = "bbr111", email = "ben1@gmx.net"}
 ]
-urls = {
-  "Homepage" = "https://github.com/bbr111/python-bydhvs",
-  "Download" = "https://github.com/bbr111/python-bydhvs/releases"
-}
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Console",
@@ -34,7 +30,10 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Topic :: Utilities"
 ]
-requires-python = ">=3.9"
+
+[project.urls]
+HomePage = "https://github.com/bbr111/python-bydhvs"
+DOWNLOAD = "https://github.com/bbr111/python-bydhvs/releases"
 
 [tool.setuptools.packages.find]
 where = ["."]
