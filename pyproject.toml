@@ -9,7 +9,9 @@ build-backend = "setuptools.build_meta"
 [project]
 requires-python = ">=3.9"
 name = "bydhvs"
-dynamic = ["version"]
+dynamic = [
+  "version",
+]
 description = "A module for communicating with the BYD HVS Battery system"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "GPL-3.0" }
@@ -30,6 +32,8 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Topic :: Utilities"
 ]
+
+[tool.setuptools_scm]
 
 [project.urls]
 HomePage = "https://github.com/bbr111/python-bydhvs"
