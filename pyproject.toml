@@ -1,3 +1,40 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "setuptools_scm[toml]>=6.0",
+]
 build-backend = "setuptools.build_meta"
+
+[project]
+# Remove the 'version' field as setuptools_scm will handle it
+name = "bydhvs"
+description = "A module for communicating with the BYD HVS Battery system"
+readme = "README.md"
+readme-content-type = "text/markdown"
+license = { text = "GPL-3.0" }
+authors = [
+  { name = "bbr111", email = "ben1@gmx.net" }
+]
+urls = {
+  "Homepage" = "https://github.com/bbr111/python-bydhvs",
+  "Download" = "https://github.com/bbr111/python-bydhvs/releases"
+}
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Utilities"
+]
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+where = ["."]
