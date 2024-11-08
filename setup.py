@@ -11,7 +11,7 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="bydhvs",
-    version="0.2.0",
+    version="0.2.2",
     description="A module for communicating with the BYD HVS Battery system",
     long_description=long_description,
     url="https://github.com/bbr111/python-bydhvs",
