@@ -8,7 +8,6 @@ data for use in Home Assistant.
 
 import asyncio
 import logging
-
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -475,6 +474,32 @@ class BYDHVS:
             temp = byteArray[5 + i]
             self.cellTemperatures.append(temp)
 
+    def parse_packet12(self, data: bytes) -> None:
+        """Parse packet 12 containing cell voltage.
+
+        Args:
+            data (bytes): The received data packet.
+
+        """
+        byteArray = data
+        # Cell voltages (Bytes 101 to 132) for cells 1 to 16
+        for i in range(16):
+            voltage = self.buf2int16SI(byteArray, 101 + i * 2)
+            self.cellVoltages.append(voltage)
+
+    def parse_packet13(self, data: bytes) -> None:
+        """Parse packet 13 containing cell voltage.
+
+        Args:
+            data (bytes): The received data packet.
+
+        """
+        byteArray = data
+        # Cell voltages (Bytes 101 to 132) for cells 1 to 16
+        for i in range(16):
+            voltage = self.buf2int16SI(byteArray, 5 + i * 2)
+            self.cellVoltages.append(voltage)
+
     def count_set_bits(self, hex_string: str) -> int:
         """Count the number of set bits in a hex string.
 
@@ -617,12 +642,75 @@ class BYDHVS:
             data = await self.receive_response()
             if data and self.check_packet(data):
                 self.parse_packet8(data)
-                self.myState = 0  # Polling completed
+                if self.hvsModules > 4:
+                    self.myState = 0  # Polling completed
+                else:
+                    self.myState = 11  # more than 4 modules
             else:
                 _LOGGER.error("Invalid or no data received in state 10")
                 self.myState = 0
                 await self.close()
                 return
+
+            if self.hvsModules > 4:
+                # State 11: Send request 9
+                await self.send_request(self.myRequests[9])
+                data = await self.receive_response()
+                if data and self.check_packet(data):
+                    self.myState = 12
+                else:
+                    _LOGGER.error("Invalid or no data received in state 11")
+                    self.myState = 0
+                    await self.close()
+                    return
+
+                # State 12: Start measurement
+                await self.send_request(self.myRequests[10])
+                data = await self.receive_response()
+                if data and self.check_packet(data):
+                    # Wait time as per original code (e.g., 8 seconds)
+                    await asyncio.sleep(8)
+                    self.myState = 13
+                else:
+                    _LOGGER.error("Invalid or no data received in state 12")
+                    self.myState = 0
+                    await self.close()
+                    return
+
+                # State 13: Send request 11
+                await self.send_request(self.myRequests[11])
+                data = await self.receive_response()
+                if data and self.check_packet(data):
+                    self.myState = 14
+                else:
+                    _LOGGER.error("Invalid or no data received in state 13")
+                    self.myState = 0
+                    await self.close()
+                    return
+
+                # State 14: Send request 12
+                await self.send_request(self.myRequests[12])
+                data = await self.receive_response()
+                if data and self.check_packet(data):
+                    self.parse_packet12(data)
+                    self.myState = 15
+                else:
+                    _LOGGER.error("Invalid or no data received in state 14")
+                    self.myState = 0
+                    await self.close()
+                    return
+
+                # State 15: Send request 13
+                await self.send_request(self.myRequests[13])
+                data = await self.receive_response()
+                if data and self.check_packet(data):
+                    self.parse_packet13(data)
+                    self.myState = 0
+                else:
+                    _LOGGER.error("Invalid or no data received in state 15")
+                    self.myState = 0
+                    await self.close()
+                    return
 
         # Close the connection
         await self.close()
